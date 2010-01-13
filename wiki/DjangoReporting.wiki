@@ -7,18 +7,18 @@ Django Reporting System allows you to create dynamic reports for your models, co
 It requires Django 1.1, since it uses Django's ORM aggregation. 
 
 
-== Add to exiting django project =
+== Add to existing django project =
 
 settings.py
 {{{
 INSTALLED_APPS = (
     [...]
     'myproject.reporting',
-    'django.contrib.admin', # admin has to go before reporting in order to have links to the reports on the admin site
+    'django.contrib.admin', # admin has to go before reporting in order to have links to the reports from the admin site
 
 }}}
 
-urs.py
+urls.py
 {{{
 from django.conf.urls.defaults import *
 from django.contrib import admin
@@ -33,10 +33,10 @@ urlpatterns = patterns('',
 )
 }}}
 
-for more details see a 'samples' directory inside repository
+For more details see the 'samples' directory inside repository
 
 = Configure report =
-Let's say you have the follwing schema:
+Let's say you have the following schema:
 
 models.py:
 {{{
@@ -67,12 +67,12 @@ from models import Person
 class PersonReport(reporting.Report):
     model = Person
     verbose_name = 'Person Report'
-    annotate = (                    # Annotation fields (tupples of field, func, title)
+    annotate = (                    # Annotation fields (tuples of field, func, title)
         ('id', Count, 'Total'),     # example of custom title for column 
         ('salary', Sum),            # no title - column will be "Salary Sum"
         ('expenses', Sum),
     )
-    aggregate = (                   # columns that will be aggregated (syntax the same as for annotate)
+    aggregate = (                   # columns that will be aggregated (syntax is the same as for annotate)
         ('id', Count, 'Total'),
         ('salary', Sum, 'Salary'),
         ('expenses', Sum, 'Expenses'),
@@ -98,4 +98,4 @@ class PersonReport(reporting.Report):
 
 reporting.register('people', PersonReport) # Do not forget to 'register' your class in reports
 }}}
-for more details see a 'samples' projects inside repository
+For more details see the project in the 'samples' directory in the repository
